@@ -1,0 +1,14 @@
+{
+  "name": "simplefiletransfer",
+  "version": "1.0.0",
+  "description": "Simple file transfer made with nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Febri Bayu Nurcahyo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
