@@ -64,15 +64,3 @@ app.listen(port, () => {
    console.log("listening to port " + port)
 })
 };
-
-function simplifyDir(dir){
-  let dirs = [];
-  const spliced = dir.split("/");
-  spliced.forEach((item, index) => {
-     if(item.length && item !== "..")
-	  dirs.push(item);
-     if(item == "..")
-	  dirs.pop()
-  })
-  return dirs.join("/")
-};
