@@ -1,5 +1,6 @@
 const fs = require("fs");
-const express = require("express")
+const express = require("express");
+const {resolve} = require("path")
 const app = express();
 
 let filearguments = process.argv.slice(2);
@@ -20,39 +21,9 @@ filearguments = filearguments.filter((item, index) => {
 
 
 let filelist = [];
-
-const workingDirectory = process.cwd()
-
-
-for(let i = 0; i < filearguments.length; i++){
-   let fileArgumentDir = filearguments[i];
-   
-   if(fileArgumentDir[0] == "." && fileArgumentDir[1] == "/"){
-      fileArgumentDir = workingDirectory + fileArgumentDir.slice(1);
-   }else if(fileArgumentDir[0] !== "/"){
-      fileArgumentDir = workingDirectory + "/" + fileArgumentDir;
-   };
-
-   fileArgumentDir = simplifyDir(fileArgumentDir);
-
-   if(fs.existsSync(fileArgumentDir)){
-	if(fs.lstatSync(fileArgumentDir).isDirectory()){
-	   const files = fs.readdirSync(fileArgumentDir)
-	   for(let ind = 0; ind < files.length; ind++){
-	      const filePath = fileArgumentDir + "/" + files[ind];
-	      if(!fs.lstatSync(filePath).isDirectory())
-	         filelist.push(filePath);
-	   }
-	}else
-	   filelist.push(fileArgumentDir);
-   }else{
-      console.log("ERROR " + fileArgumentDir + " IS NOT EXIST");
-      i = filearguments.length
-      filelist = []
-   }
-  
-};
-
+filearguments.forEach(path => {
+	filelist.push(resolve(process.cwd(), path))
+});
 if(filelist.length){
 
 app.get("/get/:index", (req, res)=>{
@@ -103,5 +74,5 @@ function simplifyDir(dir){
      if(item == "..")
 	  dirs.pop()
   })
-  return "/" + dirs.join("/")
+  return dirs.join("/")
 };
